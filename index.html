@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You ❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:linear-gradient(135deg,#ff4d6d,#ff8fab,#ffc2d1);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    position:relative;
+}
+
+/* Кнопка */
+
+button{
+    padding:18px 35px;
+    border:none;
+    border-radius:50px;
+    background:white;
+    color:#ff3366;
+    font-size:24px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 25px rgba(255,255,255,0.7);
+    transition:0.3s;
+    z-index:100;
+}
+
+button:hover{
+    transform:scale(1.08);
+}
+
+/* Контейнер */
+
+#heartContainer{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:none;
+}
+
+/* Текст */
+
+.word{
+    position:absolute;
+    color:white;
+    font-size:11px;
+    font-weight:bold;
+    text-shadow:0 0 8px rgba(0,0,0,0.4);
+    opacity:0;
+    animation:appear 0.5s forwards;
+}
+
+@keyframes appear{
+    to{
+        opacity:1;
+    }
+}
+
+/* Фото */
+
+.center-photo{
+    position:absolute;
+
+    width:170px;
+    height:170px;
+
+    object-fit:cover;
+
+    left:50%;
+    top:50%;
+
+    border-radius:20px;
+
+    opacity:0;
+
+    transform:translate(-50%,-38%) scale(0.5);
+
+    transition:1.5s;
+
+    box-shadow:0 0 30px rgba(255,255,255,0.8);
+}
+
+/* Летающие сердца */
+
+.heart{
+    position:absolute;
+    color:white;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    to{
+        transform:translateY(-120px);
+        opacity:1;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<button onclick="startLove()">Open ❤️</button>
+
+<div id="heartContainer">
+
+    <!-- ВСТАВЬ ФОТО -->
+    <img src="IMG_3504.PNG" class="center-photo" id="photo">
+
+</div>
+
+<script>
+
+function startLove(){
+
+    document.querySelector("button").style.display = "none";
+
+    const container = document.getElementById("heartContainer");
+    const photo = document.getElementById("photo");
+
+    container.style.display = "block";
+
+    const total = 180;
+    const text = "Happy Birthday ❤️";
+
+    for(let i = 0; i < total; i++){
+
+        setTimeout(()=>{
+
+            const span = document.createElement("span");
+
+            span.className = "word";
+            span.innerText = text;
+
+            let t = Math.PI * 2 * (i / total);
+
+            let x = 16 * Math.pow(Math.sin(t),3);
+
+            let y = -(
+                13*Math.cos(t)
+                -5*Math.cos(2*t)
+                -2*Math.cos(3*t)
+                -Math.cos(4*t)
+            );
+
+            let scale = 11;
+
+            span.style.left =
+                (window.innerWidth / 2 + x * scale) + "px";
+
+            span.style.top =
+                (window.innerHeight / 2 + y * scale) + "px";
+
+            container.appendChild(span);
+
+            // Когда сердце готово
+            if(i === total - 1){
+
+                setTimeout(()=>{
+
+                    photo.style.opacity = "1";
+
+                    photo.style.transform =
+                        "translate(-50%,-38%) scale(1)";
+
+                },1500);
+
+                floatingHearts();
+            }
+
+        }, i * 35);
+    }
+}
+
+function floatingHearts(){
+
+    setInterval(()=>{
+
+        const heart = document.createElement("div");
+
+        heart.className = "heart";
+        heart.innerHTML = "Nare❤️";
+
+        heart.style.left =
+            Math.random() * window.innerWidth + "px";
+
+        heart.style.fontSize =
+            (18 + Math.random() * 25) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },6000);
+
+    },250);
+}
+
+</script>
+
+</body>
+</html>
